@@ -9,19 +9,6 @@ import { OrderStatus } from './OrderStatus';
 import Product from './Product';
 
 class Order {
-  ship(shipmentService: ShipmentService): void {
-    if (this.status === OrderStatus.CREATED || this.status === OrderStatus.REJECTED) {
-      throw new OrderCannotBeShippedException();
-    }
-
-    if (this.status === OrderStatus.SHIPPED) {
-      throw new OrderCannotBeShippedTwiceException();
-    }
-
-    shipmentService.ship(this);
-
-    this.status = OrderStatus.SHIPPED;
-  }
   private total: number;
   private currency: string;
   private items: OrderItem[];
@@ -162,6 +149,20 @@ class Order {
       throw new ApprovedOrderCannotBeRejectedException();
     }
     this.status = OrderStatus.REJECTED;
+  }
+
+  ship(shipmentService: ShipmentService): void {
+    if (this.status === OrderStatus.CREATED || this.status === OrderStatus.REJECTED) {
+      throw new OrderCannotBeShippedException();
+    }
+
+    if (this.status === OrderStatus.SHIPPED) {
+      throw new OrderCannotBeShippedTwiceException();
+    }
+
+    shipmentService.ship(this);
+
+    this.status = OrderStatus.SHIPPED;
   }
 }
 
