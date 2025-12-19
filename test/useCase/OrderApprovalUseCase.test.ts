@@ -11,14 +11,12 @@ describe('OrderApprovalUseCase', () => {
   let orderRepository: TestOrderRepository;
   let useCase: OrderApprovalUseCase;
 
-  beforeEach( () => {
+  beforeEach(() => {
     orderRepository = new TestOrderRepository();
     useCase = new OrderApprovalUseCase(orderRepository);
   });
   it('approvedExistingOrder', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.CREATED);
-    initialOrder.setId(1);
+    const initialOrder: Order = Order.create(1);
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -71,7 +69,7 @@ describe('OrderApprovalUseCase', () => {
     request.setOrderId(1);
     request.setApproved(false);
 
-    expect(() =>  useCase.run(request)).toThrow(ApprovedOrderCannotBeRejectedException);
+    expect(() => useCase.run(request)).toThrow(ApprovedOrderCannotBeRejectedException);
     expect(orderRepository.getSavedOrder()).toBe(null);
   });
 

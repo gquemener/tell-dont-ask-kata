@@ -10,7 +10,7 @@ import UnknownProductException from '../../src/useCase/UnknownProductException';
 import InMemoryProductCatalog from '../doubles/InMemoryProductCatalog';
 import TestOrderRepository from '../doubles/TestOrderRepository';
 
-describe('OrderApprovalUseCase', () => {
+describe('OrderCreationUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
   const food: Category = new Category();
   food.setName('food');
@@ -24,7 +24,7 @@ describe('OrderApprovalUseCase', () => {
   tomatoProduct.setName('tomato');
   tomatoProduct.setPrice(4.65);
   tomatoProduct.setCategory(food);
-  const productCatalog: ProductCatalog = new InMemoryProductCatalog([ saladProduct, tomatoProduct]);
+  const productCatalog: ProductCatalog = new InMemoryProductCatalog([saladProduct, tomatoProduct]);
   const useCase: OrderCreationUseCase = new OrderCreationUseCase(orderRepository, productCatalog);
 
   it('sellMultipleItems', () => {

@@ -15,7 +15,7 @@ class OrderCreationUseCase {
   }
 
   public run(request: SellItemsRequest): void {
-    const order: Order = Order.created();
+    const order: Order = Order.create(1);
 
     for (const itemRequest of request.getRequests()) {
       const product: Product = this.productCatalog.getByName(itemRequest.getProductName());

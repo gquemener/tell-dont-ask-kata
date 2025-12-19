@@ -10,13 +10,14 @@ class Order {
   private status: OrderStatus;
   private id: number;
 
-  static created(): Order {
+  static create(id: number): Order {
     const order: Order = new Order();
+    order.id = id;
     order.status = OrderStatus.CREATED;
-    order.setItems([]);
-    order.setCurrency('EUR');
-    order.setTotal(0);
-    order.setTax(0);
+    order.items = []
+    order.currency = 'EUR';
+    order.total = 0;
+    order.tax = 0;
 
     return order;
   }
