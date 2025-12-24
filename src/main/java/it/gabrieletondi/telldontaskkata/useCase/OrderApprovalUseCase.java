@@ -11,8 +11,8 @@ public class OrderApprovalUseCase {
   }
 
   public void run(OrderApprovalRequest request) {
-    final Order order = orderRepository.getById(request.getOrderId());
-    if (request.isApproved()) {
+    final Order order = orderRepository.getById(request.orderId());
+    if (request.approve()) {
       order.approve();
     } else {
       order.reject();
