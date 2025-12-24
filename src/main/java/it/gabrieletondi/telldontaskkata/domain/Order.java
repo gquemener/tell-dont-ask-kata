@@ -1,61 +1,77 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private BigDecimal total;
-    private String currency;
-    private List<OrderItem> items;
-    private BigDecimal tax;
-    private OrderStatus status;
-    private int id;
+  private BigDecimal total;
+  private String currency;
+  private List<OrderItem> items;
+  private BigDecimal tax;
+  private OrderStatus status;
+  private int id;
 
-    public BigDecimal getTotal() {
-        return total;
-    }
+  public Order() {
+    setStatus(OrderStatus.CREATED);
+    setItems(new ArrayList<>());
+    setCurrency("EUR");
+    setTotal(new BigDecimal("0.00"));
+    setTax(new BigDecimal("0.00"));
+  }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
+  public BigDecimal getTotal() {
+    return items.stream()
+        .map(OrderItem::getTaxedAmount)
+        .reduce(BigDecimal::add)
+        .orElse(BigDecimal.ZERO);
+  }
 
-    public String getCurrency() {
-        return currency;
-    }
+  public void setTotal(BigDecimal total) {
+    this.total = total;
+  }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+  public String getCurrency() {
+    return currency;
+  }
 
-    public List<OrderItem> getItems() {
-        return items;
-    }
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+  public List<OrderItem> getItems() {
+    return items;
+  }
 
-    public BigDecimal getTax() {
-        return tax;
-    }
+  public void setItems(List<OrderItem> items) {
+    this.items = items;
+  }
 
-    public void setTax(BigDecimal tax) {
-        this.tax = tax;
-    }
+  public BigDecimal getTax() {
+    return items.stream().map(OrderItem::getTax).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+  }
 
-    public OrderStatus getStatus() {
-        return status;
-    }
+  public void setTax(BigDecimal tax) {
+    this.tax = tax;
+  }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
+  public OrderStatus getStatus() {
+    return status;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public void setStatus(OrderStatus status) {
+    this.status = status;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void addItem(final OrderItem orderItem) {
+    items.add(orderItem);
+  }
 }

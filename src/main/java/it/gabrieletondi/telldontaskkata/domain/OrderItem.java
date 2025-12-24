@@ -1,42 +1,71 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
+import static java.math.BigDecimal.valueOf;
+import static java.math.RoundingMode.HALF_UP;
+
+import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
+import it.gabrieletondi.telldontaskkata.useCase.SellItemRequest;
+import it.gabrieletondi.telldontaskkata.useCase.UnknownProductException;
 import java.math.BigDecimal;
 
 public class OrderItem {
-    private Product product;
-    private int quantity;
-    private BigDecimal taxedAmount;
-    private BigDecimal tax;
+  private Product product;
+  private int quantity;
+  private BigDecimal taxedAmount;
+  private BigDecimal tax;
 
-    public Product getProduct() {
-        return product;
-    }
+  public OrderItem(final SellItemRequest itemRequest, final ProductCatalog productCatalog) {
+    Product product = productCatalog.getByName(itemRequest.getProductName());
 
-    public void setProduct(Product product) {
-        this.product = product;
+    if (product == null) {
+      throw new UnknownProductException();
     }
+    this.product = product;
+    this.quantity = itemRequest.getQuantity();
 
-    public int getQuantity() {
-        return quantity;
-    }
+    final BigDecimal unitaryTax =
+        product
+            .getPrice()
+            .divide(valueOf(100))
+            .multiply(product.getCategory().getTaxPercentage())
+            .setScale(2, HALF_UP);
+    final BigDecimal unitaryTaxedAmount = product.getPrice().add(unitaryTax).setScale(2, HALF_UP);
+    this.taxedAmount =
+        unitaryTaxedAmount
+            .multiply(BigDecimal.valueOf(itemRequest.getQuantity()))
+            .setScale(2, HALF_UP);
+    this.tax = unitaryTax.multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+  }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+  public Product getProduct() {
+    return product;
+  }
 
-    public BigDecimal getTaxedAmount() {
-        return taxedAmount;
-    }
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    public void setTaxedAmount(BigDecimal taxedAmount) {
-        this.taxedAmount = taxedAmount;
-    }
+  public int getQuantity() {
+    return quantity;
+  }
 
-    public BigDecimal getTax() {
-        return tax;
-    }
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 
-    public void setTax(BigDecimal tax) {
-        this.tax = tax;
-    }
+  public BigDecimal getTaxedAmount() {
+    return taxedAmount;
+  }
+
+  public void setTaxedAmount(BigDecimal taxedAmount) {
+    this.taxedAmount = taxedAmount;
+  }
+
+  public BigDecimal getTax() {
+    return tax;
+  }
+
+  public void setTax(BigDecimal tax) {
+    this.tax = tax;
+  }
 }
