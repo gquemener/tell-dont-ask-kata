@@ -17,7 +17,7 @@ public class OrderCreationUseCase {
   public void run(SellItemsRequest request) {
     Order order = new Order();
 
-    for (SellItemRequest itemRequest : request.getRequests()) {
+    for (SellItemRequest itemRequest : request.requests()) {
       order.addItem(new OrderItem(itemRequest, productCatalog));
     }
 
