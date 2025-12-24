@@ -20,4 +20,6 @@ public class OrderApprovalUseCase {
 
     orderRepository.save(order);
   }
+
+  public record OrderApprovalRequest(int orderId, boolean approve) {}
 }

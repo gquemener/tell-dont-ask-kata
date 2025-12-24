@@ -4,8 +4,7 @@ import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.HALF_UP;
 
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
-import it.gabrieletondi.telldontaskkata.useCase.SellItemRequest;
-import it.gabrieletondi.telldontaskkata.useCase.UnknownProductException;
+import it.gabrieletondi.telldontaskkata.useCase.OrderCreationUseCase.SellItemRequest;
 import java.math.BigDecimal;
 
 public class OrderItem {

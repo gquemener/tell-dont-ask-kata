@@ -7,6 +7,7 @@ import it.gabrieletondi.telldontaskkata.domain.Category;
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.domain.Product;
+import it.gabrieletondi.telldontaskkata.domain.UnknownProductException;
 import it.gabrieletondi.telldontaskkata.doubles.InMemoryProductCatalog;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
@@ -47,10 +48,13 @@ public class OrderCreationUseCaseTest {
 
   @Test
   public void sellMultipleItems() throws Exception {
-    SellItemRequest saladRequest = new SellItemRequest(2, "salad");
-    SellItemRequest tomatoRequest = new SellItemRequest(3, "tomato");
+    OrderCreationUseCase.SellItemRequest saladRequest =
+        new OrderCreationUseCase.SellItemRequest(2, "salad");
+    OrderCreationUseCase.SellItemRequest tomatoRequest =
+        new OrderCreationUseCase.SellItemRequest(3, "tomato");
 
-    final SellItemsRequest request = new SellItemsRequest(List.of(saladRequest, tomatoRequest));
+    final OrderCreationUseCase.SellItemsRequest request =
+        new OrderCreationUseCase.SellItemsRequest(List.of(saladRequest, tomatoRequest));
 
     useCase.run(request);
 
@@ -76,8 +80,9 @@ public class OrderCreationUseCaseTest {
 
   @Test
   public void unknownProduct() throws Exception {
-    SellItemsRequest request =
-        new SellItemsRequest(List.of(new SellItemRequest(1, "unknown product")));
+    OrderCreationUseCase.SellItemsRequest request =
+        new OrderCreationUseCase.SellItemsRequest(
+            List.of(new OrderCreationUseCase.SellItemRequest(1, "unknown product")));
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(UnknownProductException.class);
   }

@@ -3,8 +3,11 @@ package it.gabrieletondi.telldontaskkata.useCase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import it.gabrieletondi.telldontaskkata.domain.ApprovedOrderCannotBeRejectedException;
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
+import it.gabrieletondi.telldontaskkata.domain.RejectedOrderCannotBeApprovedException;
+import it.gabrieletondi.telldontaskkata.domain.ShippedOrdersCannotBeChangedException;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +22,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, true);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, true);
 
     useCase.run(request);
 
@@ -34,7 +38,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, false);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, false);
 
     useCase.run(request);
 
@@ -49,7 +54,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, true);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, true);
 
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(RejectedOrderCannotBeApprovedException.class);
@@ -63,7 +69,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, false);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, false);
 
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(ApprovedOrderCannotBeRejectedException.class);
@@ -77,7 +84,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, true);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, true);
 
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(ShippedOrdersCannotBeChangedException.class);
@@ -91,7 +99,8 @@ public class OrderApprovalUseCaseTest {
     initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
-    OrderApprovalRequest request = new OrderApprovalRequest(1, false);
+    OrderApprovalUseCase.OrderApprovalRequest request =
+        new OrderApprovalUseCase.OrderApprovalRequest(1, false);
 
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(ShippedOrdersCannotBeChangedException.class);
