@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-  private BigDecimal total;
+
   private String currency;
   private List<OrderItem> items;
-  private BigDecimal tax;
   private OrderStatus status;
   private int id;
 
@@ -19,8 +18,6 @@ public class Order {
     setStatus(OrderStatus.CREATED);
     setItems(new ArrayList<>());
     setCurrency("EUR");
-    setTotal(new BigDecimal("0.00"));
-    setTax(new BigDecimal("0.00"));
   }
 
   public BigDecimal getTotal() {
@@ -28,10 +25,6 @@ public class Order {
         .map(OrderItem::getTaxedAmount)
         .reduce(BigDecimal::add)
         .orElse(BigDecimal.ZERO);
-  }
-
-  public void setTotal(BigDecimal total) {
-    this.total = total;
   }
 
   public String getCurrency() {
@@ -52,10 +45,6 @@ public class Order {
 
   public BigDecimal getTax() {
     return items.stream().map(OrderItem::getTax).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
-  }
-
-  public void setTax(BigDecimal tax) {
-    this.tax = tax;
   }
 
   public OrderStatus getStatus() {
