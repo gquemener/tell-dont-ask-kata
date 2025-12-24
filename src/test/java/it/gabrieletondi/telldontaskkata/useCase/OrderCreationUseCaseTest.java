@@ -47,13 +47,8 @@ public class OrderCreationUseCaseTest {
 
   @Test
   public void sellMultipleItems() throws Exception {
-    SellItemRequest saladRequest = new SellItemRequest();
-    saladRequest.setProductName("salad");
-    saladRequest.setQuantity(2);
-
-    SellItemRequest tomatoRequest = new SellItemRequest();
-    tomatoRequest.setProductName("tomato");
-    tomatoRequest.setQuantity(3);
+    SellItemRequest saladRequest = new SellItemRequest(2, "salad");
+    SellItemRequest tomatoRequest = new SellItemRequest(3, "tomato");
 
     final SellItemsRequest request = new SellItemsRequest(List.of(saladRequest, tomatoRequest));
 
@@ -81,9 +76,8 @@ public class OrderCreationUseCaseTest {
 
   @Test
   public void unknownProduct() throws Exception {
-    SellItemRequest unknownProductRequest = new SellItemRequest();
-    unknownProductRequest.setProductName("unknown product");
-    SellItemsRequest request = new SellItemsRequest(List.of(unknownProductRequest));
+    SellItemsRequest request =
+        new SellItemsRequest(List.of(new SellItemRequest(1, "unknown product")));
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(UnknownProductException.class);
   }

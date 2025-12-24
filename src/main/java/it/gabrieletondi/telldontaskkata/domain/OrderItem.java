@@ -15,13 +15,13 @@ public class OrderItem {
   private BigDecimal tax;
 
   public OrderItem(final SellItemRequest itemRequest, final ProductCatalog productCatalog) {
-    Product product = productCatalog.getByName(itemRequest.getProductName());
+    Product product = productCatalog.getByName(itemRequest.productName());
 
     if (product == null) {
       throw new UnknownProductException();
     }
     this.product = product;
-    this.quantity = itemRequest.getQuantity();
+    this.quantity = itemRequest.quantity();
 
     final BigDecimal unitaryTax =
         product
@@ -32,9 +32,9 @@ public class OrderItem {
     final BigDecimal unitaryTaxedAmount = product.getPrice().add(unitaryTax).setScale(2, HALF_UP);
     this.taxedAmount =
         unitaryTaxedAmount
-            .multiply(BigDecimal.valueOf(itemRequest.getQuantity()))
+            .multiply(BigDecimal.valueOf(itemRequest.quantity()))
             .setScale(2, HALF_UP);
-    this.tax = unitaryTax.multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+    this.tax = unitaryTax.multiply(BigDecimal.valueOf(itemRequest.quantity()));
   }
 
   public Product getProduct() {
