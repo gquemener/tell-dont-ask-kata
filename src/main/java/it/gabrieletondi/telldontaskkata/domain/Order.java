@@ -18,9 +18,9 @@ public class Order {
 
   public Order(int id) {
     this.id = id;
-    setStatus(OrderStatus.CREATED);
-    setItems(new ArrayList<>());
-    setCurrency("EUR");
+    this.status = OrderStatus.CREATED;
+    this.items = new ArrayList<>();
+    this.currency = "EUR";
   }
 
   public BigDecimal getTotal() {
@@ -34,16 +34,8 @@ public class Order {
     return currency;
   }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
   public List<OrderItem> getItems() {
     return items;
-  }
-
-  public void setItems(List<OrderItem> items) {
-    this.items = items;
   }
 
   public BigDecimal getTax() {
@@ -54,6 +46,7 @@ public class Order {
     return status;
   }
 
+  @Deprecated
   public void setStatus(OrderStatus status) {
     this.status = status;
   }

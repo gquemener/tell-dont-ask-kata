@@ -33,7 +33,6 @@ public class OrderShipmentUseCaseTest {
   @Test
   public void createdOrdersCannotBeShipped() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.CREATED);
     orderRepository.addOrder(initialOrder);
 
     OrderShipmentUseCase.OrderShipmentRequest request =

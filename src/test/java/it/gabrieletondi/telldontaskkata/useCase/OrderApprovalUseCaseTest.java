@@ -18,7 +18,6 @@ public class OrderApprovalUseCaseTest {
   @Test
   public void approvedExistingOrder() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.CREATED);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -33,7 +32,6 @@ public class OrderApprovalUseCaseTest {
   @Test
   public void rejectedExistingOrder() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.CREATED);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
