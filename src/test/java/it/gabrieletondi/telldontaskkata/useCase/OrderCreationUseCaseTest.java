@@ -61,7 +61,7 @@ public class OrderCreationUseCaseTest {
 
     final Order insertedOrder = orderRepository.getSavedOrder();
     assertThat(insertedOrder.getId()).isEqualTo(orderId);
-    assertThat(insertedOrder.getStatus()).isEqualTo(OrderStatus.CREATED);
+    assertThat(insertedOrder.getStatus()).isEqualTo(new OrderStatus.Created());
     assertThat(insertedOrder.getTotal()).isEqualTo(new BigDecimal("23.20"));
     assertThat(insertedOrder.getTax()).isEqualTo(new BigDecimal("2.13"));
     assertThat(insertedOrder.getCurrency()).isEqualTo("EUR");

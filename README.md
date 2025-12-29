@@ -9,6 +9,18 @@ Fortunately, they did at least take the time to write unit tests for the code.
 
 Your new CTO, after many bugs caused by this application, asked you to refactor this code to make it more maintainable and reliable.
 
+## Order lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created
+    Created --> Approved
+    Approved --> Shipped
+    Created --> Rejected
+    Rejected --> [*]
+    Shipped --> [*]
+```
+
 ## What to focus on
 As the title of the kata says, of course, the tell don't ask principle.
 You should be able to remove all the setters moving the behavior into the domain objects.

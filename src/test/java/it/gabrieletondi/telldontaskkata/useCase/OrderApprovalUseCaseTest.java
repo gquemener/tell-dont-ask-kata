@@ -26,7 +26,7 @@ public class OrderApprovalUseCaseTest {
     useCase.run(request);
 
     final Order savedOrder = orderRepository.getSavedOrder();
-    assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.APPROVED);
+    assertThat(savedOrder.getStatus()).isEqualTo(new OrderStatus.Approved());
   }
 
   @Test
@@ -40,13 +40,13 @@ public class OrderApprovalUseCaseTest {
     useCase.run(request);
 
     final Order savedOrder = orderRepository.getSavedOrder();
-    assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.REJECTED);
+    assertThat(savedOrder.getStatus()).isEqualTo(new OrderStatus.Rejected());
   }
 
   @Test
   public void cannotApproveRejectedOrder() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.REJECTED);
+    initialOrder.setStatus(new OrderStatus.Rejected());
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -60,7 +60,7 @@ public class OrderApprovalUseCaseTest {
   @Test
   public void cannotRejectApprovedOrder() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.APPROVED);
+    initialOrder.setStatus(new OrderStatus.Approved());
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -74,7 +74,7 @@ public class OrderApprovalUseCaseTest {
   @Test
   public void shippedOrdersCannotBeApproved() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.SHIPPED);
+    initialOrder.setStatus(new OrderStatus.Shipped());
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -88,7 +88,7 @@ public class OrderApprovalUseCaseTest {
   @Test
   public void shippedOrdersCannotBeRejected() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(OrderStatus.SHIPPED);
+    initialOrder.setStatus(new OrderStatus.Shipped());
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =

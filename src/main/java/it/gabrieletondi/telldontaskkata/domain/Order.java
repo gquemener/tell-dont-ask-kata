@@ -1,8 +1,5 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
-import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.REJECTED;
-import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
 
 import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import java.math.BigDecimal;
@@ -18,7 +15,7 @@ public class Order {
 
   public Order(int id) {
     this.id = id;
-    this.status = OrderStatus.CREATED;
+    this.status = new OrderStatus.Created();
     this.items = new ArrayList<>();
     this.currency = "EUR";
   }
@@ -60,39 +57,16 @@ public class Order {
   }
 
   public void approve() {
-    if (status.equals(OrderStatus.SHIPPED)) {
-      throw new ShippedOrdersCannotBeChangedException();
-    }
-
-    if (status.equals(OrderStatus.REJECTED)) {
-      throw new RejectedOrderCannotBeApprovedException();
-    }
-
-    status = OrderStatus.APPROVED;
+    status = status.toApproved();
   }
 
   public void reject() {
-    if (status.equals(OrderStatus.SHIPPED)) {
-      throw new ShippedOrdersCannotBeChangedException();
-    }
-
-    if (status.equals(OrderStatus.APPROVED)) {
-      throw new ApprovedOrderCannotBeRejectedException();
-    }
-
-    status = OrderStatus.REJECTED;
+    status = status.toRejected();
   }
 
   public void ship(final ShipmentService shipmentService) {
-    if (status.equals(CREATED) || status.equals(REJECTED)) {
-      throw new OrderCannotBeShippedException();
-    }
-
-    if (status.equals(SHIPPED)) {
-      throw new OrderCannotBeShippedTwiceException();
-    }
+    status = status.toShipped();
     shipmentService.ship(this);
-    status = OrderStatus.SHIPPED;
   }
 
   public static class ApprovedOrderCannotBeRejectedException extends RuntimeException {}
