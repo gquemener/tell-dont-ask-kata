@@ -7,26 +7,26 @@ import it.gabrieletondi.telldontaskkata.domain.Order.RejectedOrderCannotBeApprov
 import it.gabrieletondi.telldontaskkata.domain.Order.ShippedOrdersCannotBeChangedException;
 
 public interface OrderStatus {
-  OrderStatus toApproved();
+  Approved toApproved();
 
-  OrderStatus toRejected();
+  Rejected toRejected();
 
-  OrderStatus toShipped();
+  Shipped toShipped();
 
   record Created() implements OrderStatus {
 
     @Override
-    public OrderStatus toApproved() {
+    public Approved toApproved() {
       return new Approved();
     }
 
     @Override
-    public OrderStatus toRejected() {
+    public Rejected toRejected() {
       return new Rejected();
     }
 
     @Override
-    public OrderStatus toShipped() {
+    public Shipped toShipped() {
       throw new OrderCannotBeShippedException();
     }
   }
@@ -34,17 +34,17 @@ public interface OrderStatus {
   record Approved() implements OrderStatus {
 
     @Override
-    public OrderStatus toApproved() {
+    public Approved toApproved() {
       return this;
     }
 
     @Override
-    public OrderStatus toRejected() {
+    public Rejected toRejected() {
       throw new ApprovedOrderCannotBeRejectedException();
     }
 
     @Override
-    public OrderStatus toShipped() {
+    public Shipped toShipped() {
       return new Shipped();
     }
   }
@@ -52,17 +52,17 @@ public interface OrderStatus {
   record Rejected() implements OrderStatus {
 
     @Override
-    public OrderStatus toApproved() {
+    public Approved toApproved() {
       throw new RejectedOrderCannotBeApprovedException();
     }
 
     @Override
-    public OrderStatus toRejected() {
+    public Rejected toRejected() {
       return this;
     }
 
     @Override
-    public OrderStatus toShipped() {
+    public Shipped toShipped() {
       throw new OrderCannotBeShippedException();
     }
   }
@@ -70,17 +70,17 @@ public interface OrderStatus {
   record Shipped() implements OrderStatus {
 
     @Override
-    public OrderStatus toApproved() {
+    public Approved toApproved() {
       throw new ShippedOrdersCannotBeChangedException();
     }
 
     @Override
-    public OrderStatus toRejected() {
+    public Rejected toRejected() {
       throw new ShippedOrdersCannotBeChangedException();
     }
 
     @Override
-    public OrderStatus toShipped() {
+    public Shipped toShipped() {
       throw new OrderCannotBeShippedTwiceException();
     }
   }
