@@ -3,11 +3,11 @@ package it.gabrieletondi.telldontaskkata.useCase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import it.gabrieletondi.telldontaskkata.domain.ApprovedOrderCannotBeRejectedException;
 import it.gabrieletondi.telldontaskkata.domain.Order;
+import it.gabrieletondi.telldontaskkata.domain.Order.ApprovedOrderCannotBeRejectedException;
+import it.gabrieletondi.telldontaskkata.domain.Order.RejectedOrderCannotBeApprovedException;
+import it.gabrieletondi.telldontaskkata.domain.Order.ShippedOrdersCannotBeChangedException;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
-import it.gabrieletondi.telldontaskkata.domain.RejectedOrderCannotBeApprovedException;
-import it.gabrieletondi.telldontaskkata.domain.ShippedOrdersCannotBeChangedException;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import org.junit.jupiter.api.Test;
 

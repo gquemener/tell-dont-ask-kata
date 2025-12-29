@@ -67,4 +67,6 @@ public class OrderItem {
   public void setTax(BigDecimal tax) {
     this.tax = tax;
   }
+
+  public static class UnknownProductException extends RuntimeException {}
 }

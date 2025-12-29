@@ -1,5 +1,10 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.REJECTED;
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
+
+import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,4 +92,26 @@ public class Order {
 
     status = OrderStatus.REJECTED;
   }
+
+  public void ship(final ShipmentService shipmentService) {
+    if (status.equals(CREATED) || status.equals(REJECTED)) {
+      throw new OrderCannotBeShippedException();
+    }
+
+    if (status.equals(SHIPPED)) {
+      throw new OrderCannotBeShippedTwiceException();
+    }
+    shipmentService.ship(this);
+    status = OrderStatus.SHIPPED;
+  }
+
+  public static class ApprovedOrderCannotBeRejectedException extends RuntimeException {}
+
+  public static class RejectedOrderCannotBeApprovedException extends RuntimeException {}
+
+  public static class ShippedOrdersCannotBeChangedException extends RuntimeException {}
+
+  public static class OrderCannotBeShippedException extends RuntimeException {}
+
+  public static class OrderCannotBeShippedTwiceException extends RuntimeException {}
 }
