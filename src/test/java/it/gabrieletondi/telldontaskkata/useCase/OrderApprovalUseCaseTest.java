@@ -17,9 +17,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void approvedExistingOrder() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.CREATED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -33,9 +32,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void rejectedExistingOrder() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.CREATED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -49,9 +47,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void cannotApproveRejectedOrder() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.REJECTED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -64,9 +61,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void cannotRejectApprovedOrder() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.APPROVED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -79,9 +75,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void shippedOrdersCannotBeApproved() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.SHIPPED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =
@@ -94,9 +89,8 @@ public class OrderApprovalUseCaseTest {
 
   @Test
   public void shippedOrdersCannotBeRejected() throws Exception {
-    Order initialOrder = new Order();
+    Order initialOrder = new Order(1);
     initialOrder.setStatus(OrderStatus.SHIPPED);
-    initialOrder.setId(1);
     orderRepository.addOrder(initialOrder);
 
     OrderApprovalUseCase.OrderApprovalRequest request =

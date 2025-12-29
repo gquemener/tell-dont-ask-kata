@@ -16,7 +16,8 @@ public class Order {
   private OrderStatus status;
   private int id;
 
-  public Order() {
+  public Order(int id) {
+    this.id = id;
     setStatus(OrderStatus.CREATED);
     setItems(new ArrayList<>());
     setCurrency("EUR");
@@ -59,10 +60,6 @@ public class Order {
 
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public void addItem(final OrderItem orderItem) {
