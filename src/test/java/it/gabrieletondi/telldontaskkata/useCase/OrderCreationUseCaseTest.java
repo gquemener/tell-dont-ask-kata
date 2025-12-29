@@ -53,12 +53,14 @@ public class OrderCreationUseCaseTest {
     OrderCreationUseCase.SellItemRequest tomatoRequest =
         new OrderCreationUseCase.SellItemRequest(3, "tomato");
 
+    final int orderId = 13;
     final OrderCreationUseCase.SellItemsRequest request =
-        new OrderCreationUseCase.SellItemsRequest(List.of(saladRequest, tomatoRequest));
+        new OrderCreationUseCase.SellItemsRequest(orderId, List.of(saladRequest, tomatoRequest));
 
     useCase.run(request);
 
     final Order insertedOrder = orderRepository.getSavedOrder();
+    assertThat(insertedOrder.getId()).isEqualTo(orderId);
     assertThat(insertedOrder.getStatus()).isEqualTo(OrderStatus.CREATED);
     assertThat(insertedOrder.getTotal()).isEqualTo(new BigDecimal("23.20"));
     assertThat(insertedOrder.getTax()).isEqualTo(new BigDecimal("2.13"));
@@ -82,7 +84,7 @@ public class OrderCreationUseCaseTest {
   public void unknownProduct() throws Exception {
     OrderCreationUseCase.SellItemsRequest request =
         new OrderCreationUseCase.SellItemsRequest(
-            List.of(new OrderCreationUseCase.SellItemRequest(1, "unknown product")));
+            1, List.of(new OrderCreationUseCase.SellItemRequest(1, "unknown product")));
     assertThatThrownBy(() -> useCase.run(request))
         .isExactlyInstanceOf(UnknownProductException.class);
   }

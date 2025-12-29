@@ -16,7 +16,7 @@ public class OrderCreationUseCase {
   }
 
   public void run(SellItemsRequest request) {
-    Order order = new Order(1);
+    Order order = new Order(request.orderId());
 
     for (SellItemRequest itemRequest : request.requests()) {
       order.addItem(new OrderItem(itemRequest, productCatalog));
@@ -25,7 +25,7 @@ public class OrderCreationUseCase {
     orderRepository.save(order);
   }
 
-  public static record SellItemRequest(int quantity, String productName) {}
+  public record SellItemRequest(int quantity, String productName) {}
 
-  public static record SellItemsRequest(List<SellItemRequest> requests) {}
+  public record SellItemsRequest(int orderId, List<SellItemRequest> requests) {}
 }
