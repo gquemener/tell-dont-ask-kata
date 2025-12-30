@@ -1,6 +1,7 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-
+import it.gabrieletondi.telldontaskkata.domain.status.Created;
+import it.gabrieletondi.telldontaskkata.domain.status.OrderStatus;
 import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Order {
 
   public Order(int id) {
     this.id = id;
-    this.status = new OrderStatus.Created();
+    this.status = new Created();
     this.items = new ArrayList<>();
     this.currency = "EUR";
   }

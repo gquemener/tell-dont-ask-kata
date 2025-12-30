@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import it.gabrieletondi.telldontaskkata.domain.Order;
-import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
+import it.gabrieletondi.telldontaskkata.domain.status.Approved;
+import it.gabrieletondi.telldontaskkata.domain.status.Rejected;
+import it.gabrieletondi.telldontaskkata.domain.status.Shipped;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.doubles.TestShipmentService;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ public class OrderShipmentUseCaseTest {
   @Test
   public void shipApprovedOrder() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(new OrderStatus.Approved());
+    initialOrder.setStatus(new Approved());
     orderRepository.addOrder(initialOrder);
 
     OrderShipmentUseCase.OrderShipmentRequest request =
@@ -26,7 +28,7 @@ public class OrderShipmentUseCaseTest {
 
     useCase.run(request);
 
-    assertThat(orderRepository.getSavedOrder().getStatus()).isEqualTo(new OrderStatus.Shipped());
+    assertThat(orderRepository.getSavedOrder().getStatus()).isEqualTo(new Shipped());
     assertThat(shipmentService.getShippedOrder()).isEqualTo(initialOrder);
   }
 
@@ -48,7 +50,7 @@ public class OrderShipmentUseCaseTest {
   @Test
   public void rejectedOrdersCannotBeShipped() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(new OrderStatus.Rejected());
+    initialOrder.setStatus(new Rejected());
     orderRepository.addOrder(initialOrder);
 
     OrderShipmentUseCase.OrderShipmentRequest request =
@@ -63,7 +65,7 @@ public class OrderShipmentUseCaseTest {
   @Test
   public void shippedOrdersCannotBeShippedAgain() throws Exception {
     Order initialOrder = new Order(1);
-    initialOrder.setStatus(new OrderStatus.Shipped());
+    initialOrder.setStatus(new Shipped());
     orderRepository.addOrder(initialOrder);
 
     OrderShipmentUseCase.OrderShipmentRequest request =

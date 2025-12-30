@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import it.gabrieletondi.telldontaskkata.domain.Category;
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderItem.UnknownProductException;
-import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.domain.Product;
+import it.gabrieletondi.telldontaskkata.domain.status.Created;
 import it.gabrieletondi.telldontaskkata.doubles.InMemoryProductCatalog;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
@@ -61,7 +61,7 @@ public class OrderCreationUseCaseTest {
 
     final Order insertedOrder = orderRepository.getSavedOrder();
     assertThat(insertedOrder.getId()).isEqualTo(orderId);
-    assertThat(insertedOrder.getStatus()).isEqualTo(new OrderStatus.Created());
+    assertThat(insertedOrder.getStatus()).isEqualTo(new Created());
     assertThat(insertedOrder.getTotal()).isEqualTo(new BigDecimal("23.20"));
     assertThat(insertedOrder.getTax()).isEqualTo(new BigDecimal("2.13"));
     assertThat(insertedOrder.getCurrency()).isEqualTo("EUR");
