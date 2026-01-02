@@ -4,6 +4,7 @@ import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderItem;
 import it.gabrieletondi.telldontaskkata.domain.OrderItem.UnknownProductException;
 import it.gabrieletondi.telldontaskkata.domain.Product;
+import it.gabrieletondi.telldontaskkata.domain.Quantity;
 import it.gabrieletondi.telldontaskkata.repository.OrderRepository;
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OrderCreationUseCase {
     orderRepository.save(order);
   }
 
-  public record SellItemRequest(int quantity, String productName) {}
+  public record SellItemRequest(Quantity quantity, String productName) {}
 
   public record SellItemsRequest(int orderId, List<SellItemRequest> requests) {}
 }
