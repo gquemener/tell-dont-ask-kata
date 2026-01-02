@@ -2,6 +2,8 @@ package it.gabrieletondi.telldontaskkata.useCase;
 
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderItem;
+import it.gabrieletondi.telldontaskkata.domain.OrderItem.UnknownProductException;
+import it.gabrieletondi.telldontaskkata.domain.Product;
 import it.gabrieletondi.telldontaskkata.repository.OrderRepository;
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
 import java.util.List;
@@ -17,9 +19,14 @@ public class OrderCreationUseCase {
 
   public void run(SellItemsRequest request) {
     Order order = new Order(request.orderId());
-
     for (SellItemRequest itemRequest : request.requests()) {
-      order.addItem(new OrderItem(itemRequest, productCatalog));
+      Product product = productCatalog.getByName(itemRequest.productName());
+
+      if (product == null) {
+        throw new UnknownProductException();
+      }
+
+      order.addItem(new OrderItem(itemRequest.quantity(), product));
     }
 
     orderRepository.save(order);
