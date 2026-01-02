@@ -70,13 +70,13 @@ public class OrderCreationUseCaseTest {
     assertThat(insertedOrder.getItems().get(0).product().getName()).isEqualTo("salad");
     assertThat(insertedOrder.getItems().get(0).product().getPrice())
         .isEqualTo(new BigDecimal("3.56"));
-    assertThat(insertedOrder.getItems().get(0).quantity()).isEqualTo(2);
+    assertThat(insertedOrder.getItems().get(0).quantity()).isEqualTo(Quantity.valueOf(2));
     assertThat(insertedOrder.getItems().get(0).getTaxedAmount()).isEqualTo(new BigDecimal("7.84"));
     assertThat(insertedOrder.getItems().get(0).getTax()).isEqualTo(new BigDecimal("0.72"));
     assertThat(insertedOrder.getItems().get(1).product().getName()).isEqualTo("tomato");
     assertThat(insertedOrder.getItems().get(1).product().getPrice())
         .isEqualTo(new BigDecimal("4.65"));
-    assertThat(insertedOrder.getItems().get(1).quantity()).isEqualTo(3);
+    assertThat(insertedOrder.getItems().get(1).quantity()).isEqualTo(Quantity.valueOf(3));
     assertThat(insertedOrder.getItems().get(1).getTaxedAmount()).isEqualTo(new BigDecimal("15.36"));
     assertThat(insertedOrder.getItems().get(1).getTax()).isEqualTo(new BigDecimal("1.41"));
   }
