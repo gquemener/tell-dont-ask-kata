@@ -19,10 +19,16 @@ repositories {
 dependencies {
     testImplementation('org.assertj:assertj-core:3.27.6')
     testImplementation('org.junit.jupiter:junit-jupiter:5.7.1')
+    testImplementation "net.jqwik:jqwik:1.9.3"
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform() {
+        includeEngines 'jqwik'
+        include '**/*Properties.class'
+        include '**/*Test.class'
+        include '**/*Tests.class'
+    }
     testLogging {
         events "passed", "skipped", "failed"
     }

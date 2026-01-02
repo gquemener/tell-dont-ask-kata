@@ -7,7 +7,7 @@ public final class Quantity {
   private final BigDecimal value;
 
   public static Quantity valueOf(final int i) {
-    if (i <= 0) {
+    if (i <= 0 || i > 100) {
       throw new InvalidQuantityException();
     }
     return new Quantity(BigDecimal.valueOf(i));
