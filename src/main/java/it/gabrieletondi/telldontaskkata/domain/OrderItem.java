@@ -1,17 +1,13 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import static java.math.RoundingMode.HALF_UP;
-
-import java.math.BigDecimal;
-
 public record OrderItem(Quantity quantity, Product product) {
 
-  public BigDecimal getTaxedAmount() {
-    return product.getTaxedAmount().multiply(quantity.value()).setScale(2, HALF_UP);
+  public Money getTaxedAmount() {
+    return product.getPriceWithTax();
   }
 
-  public BigDecimal getTax() {
-    return product.getTax().multiply(quantity.value());
+  public Money getTax() {
+    return product.getTax();
   }
 
   public static class UnknownProductException extends RuntimeException {}

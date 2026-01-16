@@ -3,7 +3,6 @@ package it.gabrieletondi.telldontaskkata.domain;
 import it.gabrieletondi.telldontaskkata.domain.status.Created;
 import it.gabrieletondi.telldontaskkata.domain.status.OrderStatus;
 import it.gabrieletondi.telldontaskkata.service.ShipmentService;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +20,8 @@ public class Order {
     this.currency = "EUR";
   }
 
-  public BigDecimal getTotal() {
-    return items.stream()
-        .map(OrderItem::getTaxedAmount)
-        .reduce(BigDecimal::add)
-        .orElse(BigDecimal.ZERO);
+  public Money getTotal() {
+    return items.stream().map(OrderItem::getTaxedAmount).reduce(Money::add).orElse(Money.FREE);
   }
 
   public String getCurrency() {
@@ -36,8 +32,8 @@ public class Order {
     return items;
   }
 
-  public BigDecimal getTax() {
-    return items.stream().map(OrderItem::getTax).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+  public Money getTax() {
+    return items.stream().map(OrderItem::getTax).reduce(Money::add).orElse(Money.FREE);
   }
 
   public OrderStatus getStatus() {

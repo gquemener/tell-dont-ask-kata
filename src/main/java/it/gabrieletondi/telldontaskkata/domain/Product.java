@@ -1,13 +1,8 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import static java.math.BigDecimal.valueOf;
-import static java.math.RoundingMode.HALF_UP;
-
-import java.math.BigDecimal;
-
 public class Product {
   private String name;
-  private BigDecimal price;
+  private Money price;
   private Category category;
 
   public String getName() {
@@ -18,11 +13,11 @@ public class Product {
     this.name = name;
   }
 
-  public BigDecimal getPrice() {
+  public Money getPriceWithoutTax() {
     return price;
   }
 
-  public void setPrice(BigDecimal price) {
+  public void setPriceWithoutTax(Money price) {
     this.price = price;
   }
 
@@ -30,14 +25,11 @@ public class Product {
     this.category = category;
   }
 
-  public BigDecimal getTaxedAmount() {
-    return price.add(getTax()).setScale(2, HALF_UP);
+  public Money getPriceWithTax() {
+    return price.add(getTax());
   }
 
-  public BigDecimal getTax() {
-    return this.price
-        .divide(valueOf(100))
-        .multiply(this.category.getTaxPercentage())
-        .setScale(2, HALF_UP);
+  public Money getTax() {
+    return price.getTax(this.category.getTaxPercentage());
   }
 }
