@@ -1,8 +1,12 @@
 import Product from './Product';
 
 class OrderItem {
+  private tax: number
+  private taxedAmount: number
 
-  constructor(private product: Product, private quantity: number, private tax: number, private taxedAmount: number) {
+  constructor(private product: Product, private quantity: number) {
+    this.taxedAmount = Math.round(product.getUnitaryTaxedAmount() * quantity * 100) / 100;
+    this.tax = product.getUnitaryTax() * quantity;
   }
 
   public getProduct(): Product {
