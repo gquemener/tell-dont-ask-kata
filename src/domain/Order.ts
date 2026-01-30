@@ -41,7 +41,7 @@ class Order {
   }
 
   addItem(product: Product, quantity: number) {
-    this.items.push(new OrderItem(product, quantity));
+    this.items.push(new OrderItem(product, Quantity.of(quantity)));
   }
 
 }

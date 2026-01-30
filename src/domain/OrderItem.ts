@@ -4,9 +4,9 @@ class OrderItem {
   private readonly tax: number
   private readonly taxedAmount: number
 
-  constructor(private readonly product: Product, private readonly quantity: number) {
-    this.taxedAmount = Math.round(product.getUnitaryTaxedAmount() * quantity * 100) / 100;
-    this.tax = product.getUnitaryTax() * quantity;
+  constructor(private readonly product: Product, private readonly quantity: Quantity) {
+    this.taxedAmount = Math.round(product.getUnitaryTaxedAmount() * quantity.value * 100) / 100;
+    this.tax = product.getUnitaryTax() * quantity.value;
   }
 
   public getProduct(): Product {
@@ -14,7 +14,7 @@ class OrderItem {
   }
 
   public getQuantity(): number {
-    return this.quantity;
+    return this.quantity.value;
   }
 
   public getVATIncludedAmount(): number {
