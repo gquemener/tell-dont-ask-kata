@@ -1,5 +1,6 @@
 import OrderItem from './OrderItem';
 import {OrderStatus} from './OrderStatus';
+import Product from "./Product";
 
 class Order {
   private readonly currency: string = 'EUR';
@@ -39,8 +40,8 @@ class Order {
     this.id = id;
   }
 
-  addItem(orderItem: OrderItem) {
-    this.items.push(orderItem);
+  addItem(product: Product, quantity: number) {
+    this.items.push(new OrderItem(product, quantity));
   }
 
 }

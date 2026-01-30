@@ -1,5 +1,4 @@
 import Order from '../domain/Order';
-import OrderItem from '../domain/OrderItem';
 import Product from '../domain/Product';
 import OrderRepository from '../repository/OrderRepository';
 import {ProductCatalog} from '../repository/ProductCatalog';
@@ -24,8 +23,7 @@ class OrderCreationUseCase {
       if (product === undefined) {
         throw new UnknownProductException();
       } else {
-        const orderItem: OrderItem = new OrderItem(product, itemRequest.getQuantity());
-        order.addItem(orderItem);
+        order.addItem(product, itemRequest.getQuantity());
       }
     }
 
