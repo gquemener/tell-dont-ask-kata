@@ -24,10 +24,9 @@ class OrderCreationUseCase {
       if (product === undefined) {
         throw new UnknownProductException();
       } else {
-        const unitaryTax: number = Math.round(product.getPrice() / 100 * product.getCategory().getTaxPercentage() * 100) / 100;
-        const unitaryTaxedAmount: number = Math.round((product.getPrice() + unitaryTax) * 100) / 100;
-        const taxedAmount: number = Math.round(unitaryTaxedAmount * itemRequest.getQuantity() * 100) / 100;
-        const taxAmount: number = unitaryTax * itemRequest.getQuantity();
+
+        const taxedAmount: number = Math.round(product.getUnitaryTaxedAmount() * itemRequest.getQuantity() * 100) / 100;
+        const taxAmount: number = product.getUnitaryTax() * itemRequest.getQuantity();
 
         const orderItem: OrderItem = new OrderItem(product, itemRequest.getQuantity(), taxAmount, taxedAmount);
         order.addItem(orderItem);
